@@ -51,9 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             title: 'Portfolio Terminal',
-            description: '0 kilometers away',
-            imageUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop&crop=center',
-            vercelLink: 'https://github.com/MatiasRocha92'
+            description: 'Creado con HTML, CSS y JavaScript',
+            imageUrl: 'https://i.ibb.co/PzcNS6r8/portfolio.png',
+            vercelLink: 'https://portfolio-desk01.vercel.app/'
+        },
+        {
+            title: 'Sazonea',
+            description: 'Pagina de recetas interactivas',
+            imageUrl: 'https://i.ibb.co/N66NcycY/Sazonea.png',
+            vercelLink: 'https://recetas-gold.vercel.app/'
         }
     ];
 
