@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Terminal - Matías Rocha</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Hoja de Estilos Personalizada -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/iconos/terminal.svg" type="image/x-icon">
+</head>
+<body class="h-screen w-screen overflow-hidden">
+
+    <!-- BARRA DE TAREAS SUPERIOR -->
+    <header id="taskbar" class="fixed top-0 left-0 w-full flex justify-between items-center px-4 py-1">
+        <button id="start-menu-btn" class="flex items-center space-x-2 text-white focus:outline-none">
+                <img src="img/iconos/command.svg" alt="Inicio" class="h-5 w-5">
+            </button>
+            <span class="text-white">Mi Portfolio</span>
+        <div class="flex items-center space-x-4">
+            <div id="taskbar-date" class="text-white text-sm"></div>
+            <div id="taskbar-clock" class="text-white text-sm">00:00</div>
+        </div>
+    </header>
+
+    <!-- MENÚ DE INICIO (Oculto por defecto) -->
+    <div id="start-menu" class="hidden fixed top-9 left-2 rounded-lg shadow-lg p-2 w-60">
+        <ul class="flex flex-col gap-1 text-white text-sm">
+            <li data-action="openAbout" class="px-3 py-1.5 rounded hover:bg-white/20 cursor-pointer">Sobre este Portfolio...</li>
+            <hr class="border-white/20 my-1"/>
+            <li data-action="openNotepad" class="px-3 py-1.5 rounded hover:bg-white/20 cursor-pointer">Bloc de Notas</li>
+            <li data-action="openTerminal" class="px-3 py-1.5 rounded hover:bg-white/20 cursor-pointer">Terminal</li>
+            <li data-action="openProjects" class="px-3 py-1.5 rounded hover:bg-white/20 cursor-pointer">Mis Proyectos</li>
+            <hr class="border-white/20 my-1"/>
+            <li data-action="openCvModal" class="px-3 py-1.5 rounded hover:bg-white/20 cursor-pointer">Ver Currículum</li>
+            <li data-action="openLink" data-url="https://github.com/MatiasRocha92" class="px-3 py-1.5 rounded hover:bg-white/20 cursor-pointer">Ir a GitHub</li>
+        </ul>
+    </div>
+    
+
+
+    <!-- CONTENEDOR PRINCIPAL DEL ESCRITORIO -->
+    <div id="desktop" class="desktop-bg h-full w-full relative">
+        <div id="icon-grid">
+            <!-- Los iconos arrastrables se generarán dinámicamente aquí -->
+        </div>
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div class="main-title">MATIAS ROCHA</div>
+        </div>
+    </div>
+
+    <!-- VENTANAS MODALES -->
+    <!-- Terminal -->
+    <div id="terminal" class="hidden fixed top-1/2 left-1/2 w-[95%] h-[90vh] max-w-5xl bg-[#282c34] rounded-lg shadow-2xl flex flex-col animate-open-scale">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="window-close"></button>
+                <button class="window-minimize"></button>
+            </div>
+            <span class="window-title">Terminal</span>
+            <div></div>
+        </div>
+        <div id="terminal-body" class="terminal-font p-4 overflow-y-auto flex-grow text-sm leading-relaxed"></div>
+    </div>
+
+    <!-- CV Modal -->
+    <div id="cv-modal" class="hidden fixed top-1/2 left-1/2 w-[95%] h-[90vh] max-w-4xl bg-gray-800 rounded-lg shadow-2xl flex flex-col animate-open-scale">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="window-close"></button>
+                <button class="window-minimize"></button>
+            </div>
+            <span class="window-title">Currículum Vitae</span>
+            <div></div>
+        </div>
+        <div class="flex-grow p-2 bg-white">
+            <iframe src="img/cv/cv.pdf" width="100%" height="100%" frameborder="0" class="w-full h-full border-none" title="CV de Matías Rocha"></iframe>
+        </div>
+    </div>
+
+    <!-- Notepad Modal -->
+    <div id="notepad-modal" class="hidden fixed top-1/2 left-1/2 w-[95%] h-[70vh] max-w-2xl bg-yellow-50 rounded-lg shadow-2xl flex flex-col animate-open-scale">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="window-close"></button>
+                <button class="window-minimize"></button>
+            </div>
+            <span class="window-title">Bloc de Notas</span>
+            <div></div>
+        </div>
+        <div class="flex-grow p-1">
+            <textarea id="notepad-textarea" class="w-full h-full border-none outline-none resize-none p-4 bg-yellow-50 text-gray-800" placeholder="Escribe algo..."></textarea>
+        </div>
+    </div>
+
+    <!-- NUEVO: Ventana de Proyectos -->
+    <div id="projects-modal" class="hidden fixed top-1/2 left-1/2 w-[95%] h-[80vh] max-w-4xl rounded-lg shadow-2xl flex flex-col animate-open-scale">
+        <div class="window-header">
+            <div class="window-controls">
+                <button class="window-close"></button>
+                <button class="window-minimize"></button>
+            </div>
+            <span class="window-title">Mis Proyectos</span>
+            <div></div>
+        </div>
+        <div id="projects-grid" class="flex-grow p-6 overflow-y-auto">
+            <!-- Las tarjetas de proyectos se insertarán aquí dinámicamente -->
+        </div>
+    </div>
+
+    <!-- NOTIFICACIÓN DE COOKIES -->
+    <div id="cookie-notification">
+        <div class="cookie-content">
+            <div class="cookie-header">
+                <div class="cookie-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                </div>
+                <div class="cookie-text">
+                    <p class="cookie-title">Cookies</p>
+                    <p class="cookie-description">Este sitio utiliza cookies para mejorar tu experiencia. ¿Aceptas el uso de cookies?</p>
+                    <div class="cookie-buttons">
+                        <button id="accept-cookies" class="cookie-btn cookie-btn-accept">Aceptar</button>
+                        <button id="reject-cookies" class="cookie-btn cookie-btn-reject">Rechazar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICACIÓN SOBRE EL PORTFOLIO -->
+    <div id="about-notification">
+        <div class="about-content">
+            <div class="about-header">
+                <div class="about-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="about-text">
+                    <p class="about-title">Sobre este Portfolio</p>
+                    <p class="about-description">Este portfolio fue creado por Matías Rocha usando HTML, TailwindCSS y JavaScript. Es una simulación de un sistema operativo con interfaz de terminal y ventanas estilo macOS.</p>
+                    <div class="about-buttons">
+                        <button id="close-about" class="about-btn about-btn-close">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ICONOS DE REDES SOCIALES -->
+    <div id="social-icons" class="fixed bottom-4 right-4 flex space-x-3">
+        <a href="https://github.com/MatiasRocha92" target="_blank" class="social-icon">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/matias-rocha-78b141259/" target="_blank" class="social-icon">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+        </a>
+        <a href="mailto:maty.comu@gmail.com" class="social-icon">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Script de JavaScript -->
+    <script src="index.js" defer></script>
+</body>
+</html>

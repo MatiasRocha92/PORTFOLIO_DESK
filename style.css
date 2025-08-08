@@ -1,0 +1,543 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@font-face {
+    src: url("https://www.axis-praxis.org/fonts/webfonts/MetaVariableDemo-Set.woff2")
+    format("woff2");
+    font-family: "Meta";
+    font-style: normal;
+    font-weight: normal;
+}
+/* Estilos personalizados y configuración de Tailwind */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1a1a1a;
+    user-select: none; /* Evita la selección de texto al arrastrar */
+}
+.terminal-font {
+    font-family: 'Fira Code', monospace;
+}
+/* Fondo de escritorio */
+.desktop-bg {
+    background-image: url('img/escritorio/fondo_2.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* --- Barra de Tareas y Menú de Inicio --- */
+#taskbar {
+    background-color: rgba(50, 50, 50, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+    z-index: 1000;
+}
+
+#start-menu {
+    background-color: rgba(40, 40, 40, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(100, 100, 100, 0.3);
+    z-index: 999;
+}
+
+#notification-modal, #about-modal {
+    z-index: 1010;
+}
+
+/* --- Ventanas y Modales --- */
+@keyframes open-scale {
+    from { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+.animate-open-scale {
+    animation: open-scale 0.3s ease-in-out forwards;
+}
+
+/* NUEVO: Estilos para barras de título estilo macOS */
+.window-header {
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    position: relative;
+}
+
+.window-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%);
+}
+
+.window-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #495057;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* NUEVO: Botones de control estilo macOS */
+.window-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    z-index: 10;
+    position: relative;
+}
+
+.window-close, .window-minimize, .window-maximize {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 20;
+}
+
+.window-close {
+    background-color: #ff5f56;
+}
+
+.window-close:hover {
+    background-color: #ff4444;
+    transform: scale(1.1);
+}
+
+.window-minimize {
+    background-color: #ffbd2e;
+}
+
+.window-minimize:hover {
+    background-color: #ffb300;
+    transform: scale(1.1);
+}
+
+
+
+/* NUEVO: Eliminar el pseudo-elemento de arrastre */
+.window-header::after {
+    display: none;
+}
+
+/* NUEVO: Estilos para indicadores de ventanas minimizadas */
+.minimized-indicator {
+    opacity: 0.6;
+    filter: grayscale(50%);
+}
+
+/* NUEVO: Prevenir selección de texto y establecer cursor normal */
+.window-header {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
+}
+
+/* NUEVO: Asegurar que los botones tengan cursor pointer */
+.window-controls button {
+    cursor: pointer !important;
+}
+
+/* NUEVO: Asegurar que el área de controles tenga cursor normal */
+.window-controls {
+    cursor: default;
+}
+
+
+
+/* Scrollbar para la terminal y proyectos */
+#terminal-body::-webkit-scrollbar, #projects-grid::-webkit-scrollbar { width: 8px; }
+#terminal-body::-webkit-scrollbar-track, #projects-grid::-webkit-scrollbar-track { background: rgba(30, 34, 42, 0.5); border-radius: 4px; }
+#terminal-body::-webkit-scrollbar-thumb, #projects-grid::-webkit-scrollbar-thumb { background: #56b6c2; border-radius: 4px; }
+#terminal-body::-webkit-scrollbar-thumb:hover, #projects-grid::-webkit-scrollbar-thumb:hover { background: #61afef; }
+
+/* NUEVO: Estilos para la notificación de cookies */
+#cookie-notification {
+    display: none;
+    animation: slideInFromTop 0.5s ease-out;
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
+    width: 20rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 50;
+}
+
+.cookie-content {
+    padding: 1rem;
+}
+
+.cookie-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.cookie-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #f97316;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cookie-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+}
+
+.cookie-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.cookie-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.25rem;
+}
+
+.cookie-description {
+    font-size: 0.75rem;
+    color: rgba(229, 229, 229, 0.8);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.cookie-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.cookie-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cookie-btn-accept {
+    background-color: #2563eb;
+    color: white;
+}
+
+.cookie-btn-accept:hover {
+    background-color: #1d4ed8;
+}
+
+.cookie-btn-reject {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cookie-btn-reject:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* NUEVO: Estilos para la notificación sobre el portfolio */
+#about-notification {
+    display: none;
+    animation: slideInFromTop 0.5s ease-out;
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
+    width: 28rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 50;
+}
+
+.about-content {
+    padding: 1.5rem;
+}
+
+.about-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.about-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: #3b82f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.about-icon svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: white;
+}
+
+.about-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.about-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.about-description {
+    font-size: 0.875rem;
+    color: rgba(229, 229, 229, 0.8);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.about-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.about-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.about-btn-close {
+    background-color: #6b7280;
+    color: white;
+}
+
+.about-btn-close:hover {
+    background-color: #4b5563;
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+
+/* NUEVO: Estilos para iconos de redes sociales */
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.social-icon svg {
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover svg {
+    transform: scale(1.1);
+}
+
+/* --- Iconos del Escritorio --- */
+.desktop-icon {
+    position: absolute;
+    cursor: pointer;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    width: 80px;
+}
+
+.desktop-icon.minimized-indicator {
+    opacity: 0.6;
+    filter: grayscale(50%);
+    transform: scale(0.9);
+}
+.desktop-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.desktop-icon:active {
+    cursor: grabbing;
+    z-index: 100;
+}
+.desktop-icon-img {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+    pointer-events: none;
+}
+
+/* --- ESTILOS PARA EL TÍTULO ANIMADO --- */
+.main-title {
+    transition: all 0.5s;
+    -webkit-text-stroke: 4px #d6f4f4;
+    font-variation-settings: "wght" 900, "ital" 1;
+    font-size: 8rem;
+    text-align: center;
+    color: transparent;
+    font-family: "Meta", sans-serif;
+    text-shadow: 10px 10px 0px #07bccc,
+        15px 15px 0px #e601c0,
+        20px 20px 0px #e9019a,
+        25px 25px 0px #f40468,
+        45px 45px 10px #482896;
+    cursor: pointer;
+}
+
+.main-title:hover {
+    font-variation-settings: "wght" 100, "ital" 0;
+    text-shadow: none;
+}
+
+/* --- ESTILOS PARA LA VENTANA DE PROYECTOS --- */
+
+/* MODIFICADO: Estilo de ventana de proyectos con blur */
+#projects-modal {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo más claro para el blur */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* NUEVO: Estilo de las tarjetas de proyecto al estilo de la imagen */
+.project-card {
+    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco casi opaco */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+.project-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748; /* Color oscuro para el título */
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.project-distance {
+    font-size: 0.875rem;
+    color: #718096; /* Color gris para la distancia */
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.project-image-container {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.05);
+}
+
+/* NUEVO: Estilo del botón al estilo de la imagen */
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #f7fafc; /* Color beige claro */
+    color: #2d3748; /* Color oscuro para el texto */
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.project-link:hover {
+    background-color: #edf2f7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.project-link-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
